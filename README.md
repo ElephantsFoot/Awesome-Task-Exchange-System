@@ -1,3 +1,3 @@
 # Awesome-Task-Exchange-System!
 
-![IT services](https://user-images.githubusercontent.com/28753726/190927609-61a3439f-d738-41c0-bacb-12e01eda0540.jpeg)
+![IT services (1)](https://user-images.githubusercontent.com/28753726/191976311-4bdff303-8a7c-4ab9-8fc3-eb2efbd03598.jpeg)
