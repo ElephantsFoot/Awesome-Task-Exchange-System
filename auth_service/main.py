@@ -9,8 +9,10 @@ from pydantic import BaseModel
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 
-from kafka_adapter import publish_event
-from models import Base, User
+from .kafka_adapter import publish_event
+from .models import Base, User
+from schema_registry.compiled.user.v1_pb2 import User as UserEvent
+
 
 app = FastAPI()
 
@@ -60,12 +62,10 @@ async def create_user(user: UserSchema):
         )
         session.add(new_user)
         session.commit()
-        publish_event(
-            {
-                "role": new_user.role.name,
-                "fullname": new_user.fullname,
-                "email": new_user.email,
-                "public_id": new_user.public_id,
-            }
-        )
+        user_event = UserEvent()
+        user_event.role = new_user.role.name
+        user_event.fullname = new_user.fullname
+        user_event.email = new_user.email
+        user_event.public_id = new_user.public_id
+        publish_event(user_event.SerializeToString())
         return {"username": new_user.public_id}

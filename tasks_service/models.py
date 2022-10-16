@@ -1,7 +1,7 @@
 import enum
 from uuid import uuid4
 
-from sqlalchemy import Column
+from sqlalchemy import Column, Integer
 from sqlalchemy import Enum
 from sqlalchemy import String, Text, Boolean, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
@@ -17,7 +17,8 @@ class UserRole(enum.Enum):
 
 class User(Base):
     __tablename__ = "user_account"
-    public_id = Column(String(32), primary_key=True, unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    public_id = Column(String(32), unique=True)
     role = Column(Enum(UserRole), default=UserRole.DEVELOPER)
     fullname = Column(String)
 
@@ -31,11 +32,13 @@ class User(Base):
 
 class Task(Base):
     __tablename__ = "task"
-    public_id = Column(String(32), primary_key=True, unique=True, default=lambda: uuid4().hex)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    public_id = Column(String(32), unique=True, default=lambda: uuid4().hex)
     title = Column(String, nullable=False)
+    jira_id = Column(String)
     description = Column(Text, nullable=False)
     closed = Column(Boolean, default=False)
-    user_id = Column(String, ForeignKey(User.public_id), nullable=False)
+    user_id = Column(String, ForeignKey(User.id), nullable=False)
 
     user = relationship("User", back_populates="tasks")
 

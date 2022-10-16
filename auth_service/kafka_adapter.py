@@ -3,11 +3,12 @@ from logging import log, ERROR, INFO
 
 from kafka import KafkaProducer
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
+
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 
 
-def publish_event(event_dict):
-    producer.send('users-stream', event_dict).add_callback(on_send_success).add_errback(on_send_error)
+def publish_event(event):
+    producer.send('users-stream', event).add_callback(on_send_success).add_errback(on_send_error)
 
 
 def on_send_success(record_metadata):

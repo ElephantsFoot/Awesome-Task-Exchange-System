@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+package ates;
+
+message Task {
+  required string task_id = 1;
+  required string title = 2;
+  required string jira_id = 3;
+  required string description = 4;
+  required bool closed = 5;
+  required string user_id = 6;
+}
