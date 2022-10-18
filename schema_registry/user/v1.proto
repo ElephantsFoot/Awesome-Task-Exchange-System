@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package ates;
+
+message User {
+  required string fullname = 1;
+  required string email = 2;
+  required string public_id = 3;
+  required Role role = 4;
+
+  enum Role {
+    DEVELOPER = 1;
+    ADMIN = 2;
+    MANAGER = 3;
+  }
+}
